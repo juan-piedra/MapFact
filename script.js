@@ -3,7 +3,7 @@ var coords = document.getElementById("coords");
 
 function citySearch() {
     var userInput = document.getElementById("userInput").value;
-    var cityAPI = `http://api.openweathermap.org/geo/1.0/direct?q=${userInput}&limit=1&appid=${APIkey}`;
+    var cityAPI = `https://api.openweathermap.org/geo/1.0/direct?q=${userInput}&limit=1&appid=${APIkey}`;
   
     fetch(cityAPI).then(function (response) {
       if (response.ok) {
