@@ -1,17 +1,27 @@
 var APIkey = "5e1fbf26e7999bc26ec11e0fd6c6c7b1";
 var coords = document.getElementById("coords");
+var historyArr = JSON.parse(localStorage.getItem("historyArr")) || [];
 
 function citySearch() {
-    var userInput = document.getElementById("userInput").value;
+	var userInput = document.getElementById("userInput").value;
+	if (userInput == ""){
+		return;
+	}
+	if (historyArr.includes(userInput)){
+		return;
+	}
     var cityAPI = `https://api.openweathermap.org/geo/1.0/direct?q=${userInput}&limit=1&appid=${APIkey}`;
-  
+	
+	historyArr.push(userInput);
+	localStorage.setItem("historyArr", JSON.stringify(historyArr));
+
+	searchHistory(userInput);
+
     fetch(cityAPI).then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
         	var latCoord = data[0].lat;
         	var lonCoord = data[0].lon;
-			console.log(typeof latCoord);
-			coords.innerHTML = latCoord + ", " + lonCoord;
 			
 			let center = [lonCoord, latCoord];
 			const map = tt.map({
@@ -27,3 +37,16 @@ function citySearch() {
       }
     });
   }
+
+  function searchHistory(userInput) {
+	var cityButton = document.createElement('button');
+	cityButton.textContent = userInput;
+	document.querySelector('.search-history').append(cityButton);
+  }
+
+
+
+for (var i = 0; i < historyArr.length; i++) {
+	searchHistory(historyArr[i]);
+}
+
