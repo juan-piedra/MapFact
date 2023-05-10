@@ -8,11 +8,21 @@ function citySearch() {
     fetch(cityAPI).then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
-        	var lat = data[0].lat;
-        	var lon = data[0].lon;
-
-			coords.innerHTML = lat + ", " + lon;
+        	var latCoord = data[0].lat;
+        	var lonCoord = data[0].lon;
+			console.log(typeof latCoord);
+			coords.innerHTML = latCoord + ", " + lonCoord;
 			
+			let center = [lonCoord, latCoord];
+			const map = tt.map({
+				key: "jYV23H6TtSrbMJGiwDcq5hEw8TVbcnQn",
+				container: "map",
+				center: center,
+				zoom: 10
+			})
+			map.on('load', () => {
+				new tt.Marker().setLngLat(center).addTo(map)
+			})
         });
       }
     });
