@@ -4,16 +4,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MapFact</title>
+    <link rel="stylesheet" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.18.0/maps/maps.css">
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.18.0/maps/maps-web.min.js"></script>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-	<div class="container">
-		<div class="output">
-            <div id="coords"></div>
+    <header class="header">
+        <div class="content has-text-centered">
+          <p>
+            <h1><bold>Map Fact</bold></h1>
+          </p>
         </div>
-		<input type="text" placeholder="San Diego" id="userInput">
-		<button onclick="citySearch()">Submit</button>
-	</div>
+    </header>
+    <div class="main">
+        <div id="map"></div>
+        <div class="container">
+            <input type="text" placeholder="San Diego" id="userInput">
+            <button onclick="citySearch()">Submit</button>
+            <div class="search-history"></div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="content has-text-centered">
+          <p>
+            <strong>Map Fact</strong> by <a>Juan Piedra, Bryce Thompson, Zach Sandoval</a>
+          </p>
+        </div>
+      </footer>
+
     <script src="./script.js"></script>
 </body>
 </html>
