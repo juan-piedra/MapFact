@@ -49,4 +49,3 @@ function citySearch() {
 for (var i = 0; i < historyArr.length; i++) {
 	searchHistory(historyArr[i]);
 }
-
