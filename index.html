@@ -20,9 +20,14 @@
         <div id="map"></div>
         <div class="container">
             <input type="text" placeholder="San Diego" id="userInput">
-            <button onclick="citySearch()">Submit</button>
+            <button onclick="citySearch(); wikiInfo()" id="submitBtn">Submit</button>
             <div class="search-history"></div>
         </div>
+
+        <div class = "container">Wiki Info:
+          <div class = "container wikiDisplay"></div>
+        </div>
+
     </div>
     <footer class="footer">
         <div class="content has-text-centered">
