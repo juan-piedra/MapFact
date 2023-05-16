@@ -29,9 +29,8 @@ function citySearch() {
 			// console.log("####" + geoCoordsSearch);
 			wikiGeo(geoCoordsSearch);
 
-			for(var i = 0; i < wikiGeoPlacesArray.length; i++) {
-				wikiName(wikiGeoPlacesArray[i]);
-			}
+
+
 
 			let center = [lonCoord, latCoord];
 			const map = tt.map({
@@ -60,12 +59,17 @@ for (var i = 0; i < historyArr.length; i++) {
 	searchHistory(historyArr[i]);
 }
 
-var wikiGeoPlacesArray = [];
+
+
+
+
 var wikiInfoDisplay = document.querySelector(".wikiDislplay");
 
+
+// function that uses wiki API and the geocords from citySearch function to search for 10 places within  a 10,000 foot radius of the cords.
 function wikiGeo(geoCoordsSearch){
 var url = "https://en.wikipedia.org/w/api.php"; 
-
+var wikiGeoPlacesArray = [];
 var params = {
     action: "query",
     list: "geosearch",
@@ -84,18 +88,19 @@ fetch(url)
     .then(function(response) {
         var pages = response.query.geosearch;
         for (var place in pages) {
-            //console.log(pages[place].title);
+            console.log(pages[place].title);
 			wikiGeoPlacesArray.push(pages[place].title);
+			wikiName(pages[place].title);
         }
     })
     .catch(function(error){console.log(error);});
+
 console.log(wikiGeoPlacesArray);
+
 }
 
 
-
-
-
+// function that uses the wiki API and the 10 places from the geoCoordsSearch function to get links for the 10 places we have looked up
 function wikiName (nameSearch){
 var url = "https://en.wikipedia.org/w/api.php"; 
 
@@ -116,3 +121,9 @@ fetch(url)
     .catch(function(error){console.log(error);});
 }
 
+function wikiDislplay(nameArray){
+	for(var i = 0; i < nameArray.length; i++){
+		var placeName = document.createElement("div");
+		placeName.textContent = nameArray[i]
+}
+}
