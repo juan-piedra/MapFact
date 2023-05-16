@@ -106,11 +106,6 @@ function historySearch() {
 // How to get button to search
 // How to get previous items to search
 
-
-
-
-
-
 var wikiInfoDisplay = document.querySelector(".wikiDislplay");
 
 
@@ -118,6 +113,7 @@ var wikiInfoDisplay = document.querySelector(".wikiDislplay");
 function wikiGeo(geoCoordsSearch){
 var url = "https://en.wikipedia.org/w/api.php"; 
 var wikiGeoPlacesArray = [];
+
 var params = {
     action: "query",
     list: "geosearch",
@@ -126,7 +122,7 @@ var params = {
     gslimit: "10",
     format: "json"
 };
-console.log(params);
+//console.log(params);
 
 url = url + "?origin=*";
 Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
@@ -136,21 +132,28 @@ fetch(url)
     .then(function(response) {
         var pages = response.query.geosearch;
         for (var place in pages) {
-            console.log(pages[place].title);
+            //console.log(pages[place].title);
 			wikiGeoPlacesArray.push(pages[place].title);
 			wikiName(pages[place].title);
         }
+		wikiDislplay(placeNameArray);
     })
     .catch(function(error){console.log(error);});
 
-console.log(wikiGeoPlacesArray);
-
+//console.log(wikiGeoPlacesArray);
+console.log(placeLinkArray);
+//console.log(placeNameArray);
 }
 
 
 // function that uses the wiki API and the 10 places from the geoCoordsSearch function to get links for the 10 places we have looked up
+
+var placeNameArray = [];
+var placeLinkArray = [];
+
 function wikiName (nameSearch){
 var url = "https://en.wikipedia.org/w/api.php"; 
+
 
 var params = {
     action: "opensearch",
@@ -165,13 +168,45 @@ Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];}
 
 fetch(url)
     .then(function(response){return response.json();})
-    .then(function(response) {console.log(response);})
+    .then(function(data) {
+		//console.log(data);
+		var placeName = data.at(0);
+		var placeLink = data.at(3);
+		//console.log(placeName);
+		//console.log(placeLink);
+		placeNameArray.push(placeName);
+		placeLinkArray.push(placeLink);
+	
+
+
+		// var wikiLi = document.createElement("li");
+		// wikiLi.appendChild(placeName);
+		// document.getElementById("wikiListUl").appendChild(wikiLi);
+
+
+		//wikiInfoDisplay.innerHTML="";
+		// var title = document.createElement("h4");
+		// title.textContent = placeName;
+		// var wikiList = document.createElement("li");
+		// wikiList.appendChild(title);
+		// var parentList = document.querySelector("wikiDisplay");
+		// parentList.appendChild(wikiList);
+		//wikiInfoDisplay.append(title);
+
+
+	})
     .catch(function(error){console.log(error);});
+
+
+}
+var wikiDislplayEl = document.getElementById("wikiListUl");
+function wikiDislplay(placeNameArray){
+	console.log(wikiDislplayEl);
+	for(var i = 0; i < 10; i++){
+		var wikiLi = document.createElement("li");
+		wikiLi.textContent = placeNameArray[i];
+		wikiDislplayEl.appendChild(wikiLi);
+		
+}
 }
 
-function wikiDislplay(nameArray){
-	for(var i = 0; i < nameArray.length; i++){
-		var placeName = document.createElement("div");
-		placeName.textContent = nameArray[i]
-}
-}
