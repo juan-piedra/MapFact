@@ -2,7 +2,9 @@ var APIkey = "5e1fbf26e7999bc26ec11e0fd6c6c7b1";
 var coords = document.getElementById("coords");
 var historyArr = JSON.parse(localStorage.getItem("historyArr")) || [];
 var set = new Set();
-
+var placeNameArray = [];
+var placeLinkArray = [];
+var wikiDislplayEl = document.getElementById("wikiListUl");
 function onStart() {
   var ranLat = Math.round((Math.random() * 180 - 90) * 10000) / 10000;
   var ranLon = Math.round((Math.random() * 360 - 180) * 10000) / 10000;
@@ -80,13 +82,19 @@ for (var i = 0; i < historyArr.length; i++) {
 
 function historySearch() {
 	var cityAPI = `https://api.openweathermap.org/geo/1.0/direct?q=${this.innerHTML}&limit=1&appid=${APIkey}`;
-  console.log(cityAPI);
+  //console.log(cityAPI);
   fetch(cityAPI).then(function (response) {
     if (response.ok) {
       response.json().then(function (data) {
-        console.log(data);
+        //console.log(data);
         var latCoord = data[0].lat;
         var lonCoord = data[0].lon;
+
+
+      var geoCoordsSearch = latCoord + "|" + lonCoord;
+			// console.log("####" + geoCoordsSearch);
+			wikiGeo(geoCoordsSearch);
+
 
         let center = [lonCoord, latCoord];
         const map = tt.map({
@@ -136,20 +144,20 @@ fetch(url)
 			wikiGeoPlacesArray.push(pages[place].title);
 			wikiName(pages[place].title);
         }
-		wikiDislplay(placeNameArray);
+
     })
     .catch(function(error){console.log(error);});
 
 //console.log(wikiGeoPlacesArray);
-console.log(placeLinkArray);
+//console.log(placeLinkArray);
 //console.log(placeNameArray);
+// wikiDislplay(placeNameArray);
 }
 
 
 // function that uses the wiki API and the 10 places from the geoCoordsSearch function to get links for the 10 places we have looked up
 
-var placeNameArray = [];
-var placeLinkArray = [];
+
 
 function wikiName (nameSearch){
 var url = "https://en.wikipedia.org/w/api.php"; 
@@ -176,37 +184,48 @@ fetch(url)
 		//console.log(placeLink);
 		placeNameArray.push(placeName);
 		placeLinkArray.push(placeLink);
-	
 
 
-		// var wikiLi = document.createElement("li");
-		// wikiLi.appendChild(placeName);
-		// document.getElementById("wikiListUl").appendChild(wikiLi);
-
-
-		//wikiInfoDisplay.innerHTML="";
-		// var title = document.createElement("h4");
-		// title.textContent = placeName;
-		// var wikiList = document.createElement("li");
-		// wikiList.appendChild(title);
-		// var parentList = document.querySelector("wikiDisplay");
-		// parentList.appendChild(wikiList);
-		//wikiInfoDisplay.append(title);
-
-
+      displayInfo(placeName, placeLink)
 	})
     .catch(function(error){console.log(error);});
 
 
 }
-var wikiDislplayEl = document.getElementById("wikiListUl");
-function wikiDislplay(placeNameArray){
-	console.log(wikiDislplayEl);
-	for(var i = 0; i < 10; i++){
-		var wikiLi = document.createElement("li");
-		wikiLi.textContent = placeNameArray[i];
-		wikiDislplayEl.appendChild(wikiLi);
+
+// populates and removes wiki info based on search/history selected 
+var counter = 0;
+function displayInfo(name, link){
+  counter ++;
+  if (counter < 11){
+  var wikiLi = document.createElement("li");
+  var wikiLink = document.createElement("li");
+
+  wikiLi = document.createElement("li");
+  wikiLi.textContent = name;
+
+  wikiLink = document.createElement('a');
+  wikiLink.textContent = link[0];
+
+  wikiDislplayEl.appendChild(wikiLi);
+  wikiLi.appendChild(wikiLink);
+  console.log(counter);
+  } else {
+    wikiDislplayEl.replaceChildren();
+    counter = 1;
+    console.log(counter)
+  }
+}
+
+// function wikiDislplay(placeNameArray){
+
+// 	for(var i = 0; i < 10; i++){
+// 		var wikiLi = document.createElement("li");
+// 		wikiLi.textContent = placeNameArray[i];
+// 		wikiDislplayEl.appendChild(wikiLi);
 		
-}
-}
+// }
+// console.log(wikiDislplayEl);
+// // console.log(Object.values(placeNameArray));
+// }
 
