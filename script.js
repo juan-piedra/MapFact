@@ -5,6 +5,8 @@ var set = new Set();
 var placeNameArray = [];
 var placeLinkArray = [];
 var wikiDislplayEl = document.getElementById("wikiListUl");
+
+
 function onStart() {
   var ranLat = Math.round((Math.random() * 180 - 90) * 10000) / 10000;
   var ranLon = Math.round((Math.random() * 360 - 180) * 10000) / 10000;
@@ -43,7 +45,7 @@ function citySearch() {
         	var lonCoord = data[0].lon;
 
 			var geoCoordsSearch = latCoord + "|" + lonCoord;
-			// console.log("####" + geoCoordsSearch);
+
 			wikiGeo(geoCoordsSearch);
 
 
@@ -62,6 +64,7 @@ function citySearch() {
     });
   }
 
+
 function searchHistory(userInput) {
 	if (set.has(userInput)){
 		return;
@@ -76,23 +79,25 @@ function searchHistory(userInput) {
   set.add(userInput);
 }
 
+
 for (var i = 0; i < historyArr.length; i++) {
   searchHistory(historyArr[i]);
 }
 
+
 function historySearch() {
 	var cityAPI = `https://api.openweathermap.org/geo/1.0/direct?q=${this.innerHTML}&limit=1&appid=${APIkey}`;
-  //console.log(cityAPI);
+
   fetch(cityAPI).then(function (response) {
     if (response.ok) {
       response.json().then(function (data) {
-        //console.log(data);
+
         var latCoord = data[0].lat;
         var lonCoord = data[0].lon;
 
 
       var geoCoordsSearch = latCoord + "|" + lonCoord;
-			// console.log("####" + geoCoordsSearch);
+
 			wikiGeo(geoCoordsSearch);
 
 
@@ -111,11 +116,6 @@ function historySearch() {
   });
 }
 
-// How to get button to search
-// How to get previous items to search
-
-var wikiInfoDisplay = document.querySelector(".wikiDislplay");
-
 
 // function that uses wiki API and the geocords from citySearch function to search for 10 places within  a 10,000 foot radius of the cords.
 function wikiGeo(geoCoordsSearch){
@@ -130,7 +130,6 @@ var params = {
     gslimit: "10",
     format: "json"
 };
-//console.log(params);
 
 url = url + "?origin=*";
 Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
@@ -140,28 +139,18 @@ fetch(url)
     .then(function(response) {
         var pages = response.query.geosearch;
         for (var place in pages) {
-            //console.log(pages[place].title);
 			wikiGeoPlacesArray.push(pages[place].title);
 			wikiName(pages[place].title);
         }
 
     })
     .catch(function(error){console.log(error);});
-
-//console.log(wikiGeoPlacesArray);
-//console.log(placeLinkArray);
-//console.log(placeNameArray);
-// wikiDislplay(placeNameArray);
 }
 
 
 // function that uses the wiki API and the 10 places from the geoCoordsSearch function to get links for the 10 places we have looked up
-
-
-
 function wikiName (nameSearch){
 var url = "https://en.wikipedia.org/w/api.php"; 
-
 
 var params = {
     action: "opensearch",
@@ -177,11 +166,10 @@ Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];}
 fetch(url)
     .then(function(response){return response.json();})
     .then(function(data) {
-		//console.log(data);
+
 		var placeName = data.at(0);
 		var placeLink = data.at(3);
-		//console.log(placeName);
-		//console.log(placeLink);
+
 		placeNameArray.push(placeName);
 		placeLinkArray.push(placeLink);
 
@@ -193,7 +181,9 @@ fetch(url)
 
 }
 
+
 // populates and removes wiki info based on search/history selected 
+var wikiInfoDisplay = document.querySelector(".wikiDislplay");
 var counter = 0;
 function displayInfo(name, link){
   counter ++;
@@ -215,19 +205,5 @@ function displayInfo(name, link){
   } else {
     wikiDislplayEl.replaceChildren();
     counter = 1;
-    console.log(counter)
   }
 }
-
-// function wikiDislplay(placeNameArray){
-
-// 	for(var i = 0; i < 10; i++){
-// 		var wikiLi = document.createElement("li");
-// 		wikiLi.textContent = placeNameArray[i];
-// 		wikiDislplayEl.appendChild(wikiLi);
-		
-// }
-// console.log(wikiDislplayEl);
-// // console.log(Object.values(placeNameArray));
-// }
-
