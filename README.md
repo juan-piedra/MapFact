@@ -1,1 +1,2 @@
 # MapFact
+MapFact is an interactice front-end application that enables the user to search for cities across the globe. This application uses mediawiki, geocoding and TomTom api's as well as Bulma for our CSS framework. The user can search for a city anywhere in the world and the TomTom as well as the Geocoding api will take the user to that loaction whoile the MediaWiki api will display some information about the desired location. 
