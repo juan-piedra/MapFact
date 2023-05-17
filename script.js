@@ -3,6 +3,10 @@ var coords = document.getElementById("coords");
 var historyArr = JSON.parse(localStorage.getItem("historyArr")) || [];
 var set = new Set();
 var searchHistoryList = document.getElementsByClassName("search-history");
+var placeNameArray = [];
+var placeLinkArray = [];
+var wikiDislplayEl = document.getElementById("wikiListUl");
+
 
 // Takes user to a top 10 city (according to some website)
 function onStart() {
@@ -50,26 +54,31 @@ function citySearch() {
   searchHistory(userInput);
   document.getElementById("userInput").value = "";
 
-  fetch(cityAPI).then(function (response) {
-    if (response.ok) {
-      response.json().then(function (data) {
-        var latCoord = data[0].lat;
-        var lonCoord = data[0].lon;
+    fetch(cityAPI).then(function (response) {
+      if (response.ok) {
+        response.json().then(function (data) {
+        	var latCoord = data[0].lat;
+        	var lonCoord = data[0].lon;
 
-        let center = [lonCoord, latCoord];
-        const map = tt.map({
-          key: "jYV23H6TtSrbMJGiwDcq5hEw8TVbcnQn",
-          container: "map",
-          center: center,
-          zoom: 12,
+			var geoCoordsSearch = latCoord + "|" + lonCoord;
+
+			wikiGeo(geoCoordsSearch);
+
+
+			let center = [lonCoord, latCoord];
+			const map = tt.map({
+				key: "jYV23H6TtSrbMJGiwDcq5hEw8TVbcnQn",
+				container: "map",
+				center: center,
+				zoom: 10
+			})
+			map.on('load', () => {
+				new tt.Marker().setLngLat(center).addTo(map)
+			})
         });
-        map.on("load", () => {
-          new tt.Marker().setLngLat(center).addTo(map);
-        });
-      });
-    }
-  });
-}
+      }
+    });
+  }
 
 function enterKeyPressed(event) {
   if (event.keyCode === 13) {
@@ -121,9 +130,15 @@ function historySearch() {
   fetch(cityAPI).then(function (response) {
     if (response.ok) {
       response.json().then(function (data) {
-        console.log(data);
+
         var latCoord = data[0].lat;
         var lonCoord = data[0].lon;
+
+
+      var geoCoordsSearch = latCoord + "|" + lonCoord;
+
+			wikiGeo(geoCoordsSearch);
+
 
         let center = [lonCoord, latCoord];
         const map = tt.map({
@@ -140,4 +155,93 @@ function historySearch() {
   });
 }
 
-// Clear search history button
+
+// function that uses wiki API and the geocords from citySearch function to search for 10 places within  a 10,000 foot radius of the cords.
+function wikiGeo(geoCoordsSearch){
+var url = "https://en.wikipedia.org/w/api.php"; 
+var wikiGeoPlacesArray = [];
+
+var params = {
+    action: "query",
+    list: "geosearch",
+    gscoord: geoCoordsSearch,
+    gsradius: "10000",
+    gslimit: "10",
+    format: "json"
+};
+
+url = url + "?origin=*";
+Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
+
+fetch(url)
+    .then(function(response){return response.json();})
+    .then(function(response) {
+        var pages = response.query.geosearch;
+        for (var place in pages) {
+			wikiGeoPlacesArray.push(pages[place].title);
+			wikiName(pages[place].title);
+        }
+
+    })
+    .catch(function(error){console.log(error);});
+}
+
+
+// function that uses the wiki API and the 10 places from the geoCoordsSearch function to get links for the 10 places we have looked up
+function wikiName (nameSearch){
+var url = "https://en.wikipedia.org/w/api.php"; 
+
+var params = {
+    action: "opensearch",
+    search: nameSearch,
+    limit: "1",
+    namespace: "0",
+    format: "json"
+};
+
+url = url + "?origin=*";
+Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
+
+fetch(url)
+    .then(function(response){return response.json();})
+    .then(function(data) {
+
+		var placeName = data.at(0);
+		var placeLink = data.at(3);
+
+		placeNameArray.push(placeName);
+		placeLinkArray.push(placeLink);
+
+
+      displayInfo(placeName, placeLink)
+	})
+    .catch(function(error){console.log(error);});
+
+
+}
+
+
+// populates and removes wiki info based on search/history selected 
+var wikiInfoDisplay = document.querySelector(".wikiDislplay");
+var counter = 0;
+function displayInfo(name, link){
+  counter ++;
+  if (counter < 11){
+  var wikiLi = document.createElement("li");
+  var wikiLink = document.createElement("li");
+
+  wikiLi = document.createElement("li");
+  wikiLi.textContent = name;
+
+  wikiLink = document.createElement('a');
+  wikiLink.setAttribute("href",link[0]);
+  wikiLink.setAttribute("target","blank");
+  wikiLink.textContent = link[0];
+
+  wikiDislplayEl.appendChild(wikiLi);
+  wikiLi.appendChild(wikiLink);
+  } else {
+    wikiDislplayEl.replaceChildren();
+    counter = 1;
+  }
+}
