@@ -240,7 +240,6 @@ function displayInfo(name, link){
 
   wikiDislplayEl.appendChild(wikiLi);
   wikiLi.appendChild(wikiLink);
-  console.log(counter);
   } else {
     wikiDislplayEl.replaceChildren();
     counter = 1;
