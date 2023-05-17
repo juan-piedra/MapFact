@@ -6,34 +6,41 @@
     <title>MapFact</title>
     <link rel="stylesheet" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.18.0/maps/maps.css">
     <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.18.0/maps/maps-web.min.js"></script>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 <body>
-    <header class="header">
+    <header class="header has-background-primary" style="width: 100%; height: 90px;">
         <div class="content has-text-centered">
           <p>
-            <h1><bold>Map Fact</bold></h1>
+            <h1 class="has-text-white"><strong>Map Fact</strong></h1>
           </p>
         </div>
+      </header>
+      
     </header>
     <div class="main">
-        <div id="map"></div>
-        <div class="container">
-          <div class="search-container">
-            <input type="text" placeholder="San Diego" id="userInput" onkeypress="enterKeyPressed(event)">
-            <div class="submit-btn"><button onclick="citySearch()">Submit</button></div>
-            <br>
-            <p>History</p>
-            <hr>
-            <ul class="search-history"></ul>
+        <div id="map" style="width: 100%; height: 400px;"></div>
+
+        <div class="columns">
+            <div class="column">
+              <div class="search-container">
+                <input type="text" placeholder="San Diego" id="userInput" onkeypress="enterKeyPressed(event)">
+                <div class="submit-btn"><button onclick="citySearch()">Submit</button></div>
+                <br>
+                <p>History</p>
+                <hr>
+                <ul class="search-history" style="width: 50%; height: 300px;"></ul>
+              </div>
+            </div>
+            
+            <div class="column">
+              <div class="container">Wiki Info:
+                <ul class="container wikiDisplay" id="wikiListUl" style="height: 300px;">
+                </ul>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div class = "container">Wiki Info:
-          <ul class = "container wikiDisplay" id = "wikiListUl">
-          </ul>
-        </div>
-
+          <br>
     </div>
     <footer class="footer">
         <div class="content has-text-centered">
