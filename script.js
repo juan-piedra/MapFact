@@ -205,6 +205,8 @@ function displayInfo(name, link){
   wikiLi.textContent = name;
 
   wikiLink = document.createElement('a');
+  wikiLink.setAttribute("href",link[0]);
+  wikiLink.setAttribute("target","blank");
   wikiLink.textContent = link[0];
 
   wikiDislplayEl.appendChild(wikiLi);
