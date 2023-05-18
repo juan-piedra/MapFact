@@ -62,16 +62,31 @@ button {
     padding-left: 5px;
 }
 
-.search-history {
+#search-history {
     height: 820px;
 }
 
-.search-history button {
+#search-history button {
     display: block;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
     height: 50px; 
 }
 
 hr {
     background-color: black;
+    margin: 0.5rem 0;
+}
+
+.history-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.history-div p {
+    font-size: 25px;
+}
+
+.hide {
+    display: none;
 }
