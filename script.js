@@ -269,10 +269,3 @@ function clearHistory() {
   historyArr = JSON.parse(localStorage.getItem("historyArr")) || [];
   set.clear();
 }
-
-// Make header better, flashier
-// Add padding around search container
-// Wifi info
-// Button sizing
-// Wiki pictures
-// Future development plan
