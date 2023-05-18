@@ -2,7 +2,8 @@ var APIkey = "5e1fbf26e7999bc26ec11e0fd6c6c7b1";
 var coords = document.getElementById("coords");
 var historyArr = JSON.parse(localStorage.getItem("historyArr")) || [];
 var set = new Set();
-var searchHistoryList = document.getElementById("search-history");
+var searchHistoryList = document.querySelector("#search-history");
+
 var placeNameArray = [];
 var placeLinkArray = [];
 var wikiDislplayEl = document.getElementById("wikiListUl");
@@ -268,4 +269,5 @@ function clearHistory() {
   searchHistoryList.innerHTML = "";
   historyArr = JSON.parse(localStorage.getItem("historyArr")) || [];
   set.clear();
+  wikiDislplayEl.innerHTML = "";
 }
