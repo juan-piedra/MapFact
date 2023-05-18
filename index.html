@@ -23,9 +23,13 @@
             <input type="text" placeholder="San Diego" id="userInput" onkeypress="enterKeyPressed(event)">
             <div class="submit-btn"><button onclick="citySearch()">Submit</button></div>
             <br>
-            <p>History</p>
+            <div class="history-div">
+              <p>History</p>
+              <button class="clear-search" onclick="clearHistory()">Clear Search</button>
+            </div>
             <hr>
-            <ul class="search-history"></ul>
+            <h2 class="hide" id="errMessage">City not found</h2>
+            <ul id="search-history"></ul>
           </div>
         </div>
 
@@ -46,5 +50,3 @@
     <script src="./script.js"></script>
 </body>
 </html>
-
-Map Fact by Juan Piedra, Bryce Thompson, Zac
