@@ -118,7 +118,7 @@ function searchHistory(userInput) {
     return;
   }
   // Stops button overflow
-  if (set.size > 13) {
+  if (set.size > 7) {
     var firstElement = set.values().next().value;
     set.delete(firstElement);
     var searchHistoryList = document.querySelector("#search-history");
