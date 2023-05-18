@@ -6,46 +6,50 @@
     <title>MapFact</title>
     <link rel="stylesheet" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.18.0/maps/maps.css">
     <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.18.0/maps/maps-web.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <header class="header">
+    <header class="header has-background-primary" style="width: 100%; height: 100px;">
         <div class="content has-text-centered">
           <p>
-            <h1><bold>Map Fact</bold></h1>
+            <h1 class="has-text-white"><strong>Map Fact</strong></h1>
           </p>
         </div>
-    </header>
+      </header>
+
     <div class="main">
-        <div id="map"></div>
-        <div class="container">
-          <div class="search-container">
-            <input type="text" placeholder="San Diego" id="userInput" onkeypress="enterKeyPressed(event)">
-            <div class="submit-btn"><button onclick="citySearch()">Submit</button></div>
-            <br>
-            <div class="history-div">
-              <p>History</p>
-              <button class="clear-search" onclick="clearHistory()">Clear Search</button>
+        <div id="map" style="width: 100%; height: 400px;"></div>
+
+        <div class="columns">
+            <!-- First Column -->
+            <div class="column">
+                <!-- Search History section -->
+                <div class="search-container">
+                    <input type="text" placeholder="San Diego" id="userInput" onkeypress="enterKeyPressed(event)">
+                    <div class="submit-btn"><button class="button is-primary" onclick="citySearch()">Submit</button></div>
+                    <br>
+                    <div class="'history-div">
+                      <p style="font-size: 20px; font-weight: bold;">History</p>
+                      <button class="button is-danger clear-search" onclick="clearHistory()">Clear History</button>
+                    </div>
+                    <hr>
+                    <h2 class="hide" id="errMessage">City not found</h2>
+                    <ul id="search-history" style="width: 50%; height: 300px;"></ul>
+                </div>
             </div>
-            <hr>
-            <h2 class="hide" id="errMessage">City not found</h2>
-            <ul id="search-history"></ul>
-          </div>
-        </div>
 
-        <div class = "container">Wiki Info:
-          <ul class = "container wikiDisplay" id = "wikiListUl">
-          </ul>
+            <!-- Second Column -->
+            <div class="column">
+                <!-- Wiki Info section -->
+                <div class="container is-fluid overflow-auto" style="max-height: 100px;">
+                    <h1 class="title">Wiki Info:</h1>
+                    <ul class="container wikiDisplay" id="wikiListUl"> </ul>
+                </div>
+            </div>
         </div>
-
     </div>
-    <footer class="footer">
-        <div class="content has-text-centered">
-          <p>
-            <strong>Map Fact</strong> by <a>Juan Piedra, Bryce Thompson, Zach Sandoval</a>
-          </p>
-        </div>
-      </footer>
+   
 
     <script src="./script.js"></script>
 </body>
